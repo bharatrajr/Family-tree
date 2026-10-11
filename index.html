@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="te">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>నలబోలు వంశవృక్షం</title>
+<meta name="description" content="Nalabolu family tree: search names, see parents and children, and how you are related.">
+<meta name="theme-color" content="#1F4D3A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="వంశవృక్షం">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: one column, phone first. Big type, big tap targets, everything reachable by tapping names. */
+:root{
+  --bg:#FBFAF5; --card:#FFFFFF; --ink:#1B2620; --muted:#4E5B53; --line:#DCD9CC;
+  --green:#1F4D3A; --green-2:#2D6A50; --gold:#C8901A; --gold-soft:#FBF0D6; --rose:#9C3E5C; --blue:#24607A;
+  --fs:20px;
+  --f:"Noto Sans Telugu","Noto Sans","Nirmala UI",Gautami,system-ui,sans-serif;
+}
+html.fs-s{--fs:17px} html.fs-l{--fs:23px} html.fs-xl{--fs:26px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:var(--fs);line-height:1.5;-webkit-text-size-adjust:100%}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+.top{position:sticky;top:0;z-index:10;background:var(--green);color:#fff;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;display:flex;align-items:center;gap:10px;min-height:64px}
+.top h1{font-size:1.05em;margin:0;font-weight:700;flex:1;min-width:0;line-height:1.25}
+.top h1 small{display:block;font-size:.7em;font-weight:400;opacity:.85}
+.iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:12px;min-width:52px;height:52px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:.85em;font-weight:600}
+.iconbtn svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+main{max-width:680px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-inset-bottom,0px));display:grid;gap:18px}
+.pri{display:block} .sec{display:block;font-size:.72em;color:var(--muted);font-weight:400;line-height:1.35}
+
+/* search */
+.search{position:relative}
+.search input{width:100%;font-size:1.05em;padding:18px 18px 18px 58px;border:2px solid var(--green);border-radius:16px;background:#fff;min-height:64px}
+.search svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2.4}
+.search .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:none;width:48px;height:48px;font-size:1.3em;color:var(--muted);cursor:pointer}
+
+.hero{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:6px}
+.hero .big{font-size:1.35em;font-weight:700;color:var(--green);line-height:1.3}
+.hero .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{background:var(--gold-soft);color:#6B4A07;border-radius:999px;padding:4px 12px;font-size:.78em;font-weight:600}
+
+.menu{display:grid;gap:12px}
+.bigbtn{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px 18px;cursor:pointer;min-height:84px;text-decoration:none;color:inherit}
+.bigbtn:active{background:var(--gold-soft)}
+.bigbtn .ic{width:54px;height:54px;border-radius:14px;background:var(--green);display:grid;place-items:center;flex:none}
+.bigbtn .ic svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.bigbtn .tx{flex:1;min-width:0;font-weight:700;font-size:1.02em}
+.bigbtn .chev{color:var(--muted);font-size:1.4em}
+.bigbtn.me{border-color:var(--gold);background:var(--gold-soft)}
+
+h2.sect{font-size:.95em;margin:8px 0 -6px;color:var(--green);font-weight:700}
+h2.sect .sec{display:inline;margin-left:6px}
+
+.list{display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer;min-height:72px}
+.row:active{background:var(--gold-soft)}
+.av{width:50px;height:50px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;color:#fff;background:var(--blue);font-size:.95em}
+.av.f{background:var(--rose)} .av.late{opacity:.6}
+.row .who{flex:1;min-width:0}
+.row .who .pri{font-weight:700}
+.row .rel{font-size:.7em;color:var(--green-2);font-weight:700;text-transform:none;display:block}
+.row .chev{color:var(--muted);font-size:1.3em}
+.late-tag{display:inline-block;font-size:.66em;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-right:6px;vertical-align:2px}
+.empty{color:var(--muted);text-align:center;padding:24px}
+
+/* person page */
+.profile{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 18px;text-align:center;display:grid;gap:6px;justify-items:center}
+.profile .av{width:96px;height:96px;font-size:1.6em}
+.profile .name{font-size:1.5em;font-weight:700;line-height:1.25;color:var(--ink)}
+.profile .en{font-size:.85em;color:var(--muted)}
+.relbox{background:var(--gold-soft);border:2px solid var(--gold);border-radius:16px;padding:14px 16px;width:100%;text-align:center}
+.relbox .t{font-size:1.25em;font-weight:700;color:#5A3E05}
+.relbox .e{font-size:.78em;color:#6B4A07}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act{border:2px solid var(--green);background:#fff;color:var(--green);border-radius:14px;padding:12px;min-height:64px;font-weight:700;cursor:pointer;font-size:.85em;line-height:1.3}
+.act.solid{background:var(--green);color:#fff}
+.act.full{grid-column:1/-1}
+.note{background:#fff;border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px;font-size:.88em}
+
+/* branch outline */
+.branch{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 6px 10px 10px;overflow-x:auto}
+.branch details{margin-left:14px;border-left:3px solid var(--line);padding-left:8px}
+.branch > details{margin-left:0;border-left:0;padding-left:0}
+.branch summary{list-style:none;display:flex;align-items:flex-start;gap:8px;padding:8px 4px;cursor:pointer;min-height:56px}
+.branch summary::-webkit-details-marker{display:none}
+.branch .tg{flex:none;width:40px;height:40px;border-radius:10px;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:700;font-size:1.1em;margin-top:2px}
+.branch details[open] > summary .tg{background:var(--gold)}
+.branch .leaf .tg{background:var(--line);color:var(--muted)}
+.branch .cp{flex:1;min-width:0}
+.branch .nm{border:0;background:none;padding:0;text-align:left;font-weight:700;color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.branch .sp{display:block;font-size:.8em;color:var(--muted)}
+.branch .sp button{border:0;background:none;padding:0;font:inherit;color:var(--muted);text-decoration:underline;text-decoration-color:var(--line);cursor:pointer}
+.branch .kids{font-size:.7em;color:var(--green-2);font-weight:600}
+.leaf{display:flex;gap:8px;align-items:flex-start;padding:8px 4px;margin-left:14px;border-left:3px solid var(--line);padding-left:16px;min-height:52px}
+.expandall{display:flex;gap:10px}
+
+/* relation finder */
+.pick{display:grid;gap:8px}
+.pickbtn{display:flex;align-items:center;gap:12px;background:#fff;border:2px dashed var(--green);border-radius:16px;padding:12px 14px;min-height:72px;width:100%;text-align:left;cursor:pointer}
+.pickbtn.set{border-style:solid}
+.answer{background:var(--green);color:#fff;border-radius:18px;padding:20px;text-align:center;display:grid;gap:6px}
+.answer .t{font-size:1.5em;font-weight:700;line-height:1.3}
+.answer .e{opacity:.9;font-size:.85em}
+.path{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:6px}
+.path span{background:rgba(255,255,255,.15);border-radius:999px;padding:2px 10px;font-size:.75em}
+
+/* settings */
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.seg button{border:2px solid var(--line);background:#fff;border-radius:12px;min-height:60px;font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--green);background:var(--green);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+.card h3{margin:0;font-size:1em}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;z-index:50;max-width:calc(100% - 32px);text-align:center;font-size:.9em}
+.foot{text-align:center;color:var(--muted);font-size:.75em}
+@media (min-width:700px){ .menu{grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="iconbtn" id="back" aria-label="వెనుకకు / Back" hidden><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <h1 id="title">నలబోలు వంశవృక్షం<small>Nalabolu Family Tree</small></h1>
+  <button class="iconbtn" id="homeBtn" aria-label="మొదటి పేజీ / Home" hidden><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></button>
+  <button class="iconbtn" id="setBtn" aria-label="అక్షరాల పరిమాణం / Text size"><b style="font-size:1.1em">అ</b><span style="font-size:.8em">A</span></button>
+</header>
+<main id="app"><p class="empty">లోడ్ అవుతోంది… / Loading…</p></main>
+
+<script>
+(function(){
+"use strict";
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+let D = null, byId = new Map(), gens = {};
+let telFirst = store.get("v-lang") !== "en";
+const UNCERTAIN = /please check|best reading|couldn't read|may instead/i;
+
+function toast(m){ let t = $(".toast"); if(!t){ t = document.createElement("div"); t.className = "toast"; t.setAttribute("role","status"); document.body.appendChild(t); } t.textContent = m; t.hidden = false; clearTimeout(t._h); t._h = setTimeout(() => t.hidden = true, 2600); }
+/* Two-language label: Telugu and English, order set by the language choice */
+function L(te, en){ const a = telFirst ? te : en, b = telFirst ? en : te; return `<span class="pri">${a}</span>${b ? `<span class="sec">${b}</span>` : ""}`; }
+
+/* ---------- data ---------- */
+const P = id => byId.get(id);
+const isDead = p => !!(p && (p.death || p.deceased));
+const yearOf = d => { const m = /^(\d{4})/.exec(d || ""); return m ? +m[1] : null; };
+const gword = (p, m, f, o) => p && p.g === "m" ? m : p && p.g === "f" ? f : o;
+function spousesOf(id){ return D.unions.filter(u => u.a === id || u.b === id).map(u => ({ u, id: u.a === id ? u.b : u.a })).filter(x => P(x.id)); }
+function childrenOf(id){ return D.people.filter(p => (p.parents || []).includes(id)); }
+function parentsOf(id){ return ((P(id) || {}).parents || []).map(P).filter(Boolean); }
+function siblingsOf(id){ const p = P(id); if(!p || !(p.parents || []).length) return []; return D.people.filter(q => q.id !== id && (q.parents || []).some(x => p.parents.includes(x))); }
+const nameTe = p => p.te || p.name;
+const nameMain = p => telFirst ? nameTe(p) : p.name;
+const nameSub = p => telFirst ? (p.te ? p.name : "") : (p.te || "");
+const lateTag = p => isDead(p) ? `<span class="late-tag">${telFirst ? "కీ.శే." : "Late"}</span>` : "";
+function initials(p){ const n = nameTe(p).trim(); return n ? Array.from(n)[0] + (Array.from(n)[1] && /[ా-్]/.test(Array.from(n)[1]) ? Array.from(n)[1] : "") : "?"; }
+function avatar(p){ return `<span class="av ${p.g === "f" ? "f" : ""} ${isDead(p) ? "late" : ""}" aria-hidden="true">${esc(initials(p))}</span>`; }
+
+function computeGens(){
+  const g = {}, start = D.meta.rootId && P(D.meta.rootId) ? D.meta.rootId : D.people[0].id; g[start] = 1; const q = [start];
+  const visit = (id, v) => { if(g[id] === undefined && P(id)){ g[id] = v; q.push(id); } };
+  while(q.length){ const id = q.shift(), v = g[id]; spousesOf(id).forEach(s => visit(s.id, v)); childrenOf(id).forEach(c => visit(c.id, v + 1)); (P(id).parents || []).forEach(x => visit(x, v - 1)); }
+  D.people.forEach(p => { if(g[p.id] === undefined) g[p.id] = 1; });
+  const min = Math.min(...Object.values(g)); Object.keys(g).forEach(k => g[k] = g[k] - min + 1); return g;
+}
+
+/* ---------- relationship engine ---------- */
+function upMap(id){ const m = new Map([[id, { d: 0, prev: null }]]); const q = [id];
+  while(q.length){ const c = q.shift(), d = m.get(c).d; (P(c).parents || []).forEach(x => { if(P(x) && !m.has(x)){ m.set(x, { d: d + 1, prev: c }); q.push(x); } }); } return m; }
+function bloodRel(a, b){
+  const ma = upMap(a), mb = upMap(b); let best = null;
+  ma.forEach((va, k) => { if(mb.has(k)){ const s = va.d + mb.get(k).d; if(!best || s < best.s) best = { s, c: k, da: va.d, db: mb.get(k).d }; } });
+  if(!best) return null;
+  const chainA = []; let cur = best.c; while(cur !== null){ chainA.push(cur); cur = ma.get(cur).prev; } chainA.reverse();
+  const chainB = []; cur = best.c; while(cur !== null){ chainB.push(cur); cur = mb.get(cur).prev; }
+  return { ...best, chainA, chainB };
+}
+const ordinal = n => n + (["th","st","nd","rd"][((n % 100) - 20) % 10] || ["th","st","nd","rd"][n % 100] || "th");
+const greats = n => n <= 0 ? "" : n === 1 ? "great-" : n === 2 ? "great-great-" : ordinal(n) + " great-";
+function bloodTerm(r, A, B){
+  const a = r.da, b = r.db; let en = "", te = "";
+  const older = yearOf(B.birth) && yearOf(A.birth) ? B.birth < A.birth : null;
+  const aParent = P(r.chainA[1]);
+  if(a === 0 && b === 0) en = "same person";
+  else if(a === 0){ en = b === 1 ? gword(B,"son","daughter","child") : greats(b - 2) + "grand" + gword(B,"son","daughter","child");
+    te = b === 1 ? gword(B,"కొడుకు","కూతురు","సంతానం") : b === 2 ? gword(B,"మనవడు","మనవరాలు","మనుమలు") : gword(B,"ముని మనవడు","ముని మనవరాలు","వారసులు"); }
+  else if(b === 0){ en = a === 1 ? gword(B,"father","mother","parent") : greats(a - 2) + "grand" + gword(B,"father","mother","parent");
+    if(a === 1) te = gword(B,"నాన్న","అమ్మ","తల్లిదండ్రి");
+    else if(a === 2) te = B.g === "m" ? "తాత" : aParent && aParent.g === "f" ? "అమ్మమ్మ" : "నాయనమ్మ";
+    else te = gword(B,"ముత్తాత","ముత్తవ్వ","పూర్వీకులు");
+    if(a >= 2 && aParent) en += aParent.g === "f" ? " (mother's side)" : " (father's side)"; }
+  else if(a === 1 && b === 1){ en = gword(B,"brother","sister","sibling") + (older === null ? "" : older ? " (elder)" : " (younger)");
+    te = older === null ? gword(B,"అన్న / తమ్ముడు","అక్క / చెల్లి","తోబుట్టువు") : B.g === "m" ? (older ? "అన్నయ్య" : "తమ్ముడు") : (older ? "అక్క" : "చెల్లి"); }
+  else if(a === 1){ en = greats(b - 3) + (b >= 3 ? "grand-" : "") + gword(B,"nephew","niece","nibling"); te = b === 2 ? gword(B,"అన్న/తమ్ముడు లేదా అక్క/చెల్లి కొడుకు","అన్న/తమ్ముడు లేదా అక్క/చెల్లి కూతురు","") : "";
+    const sib = P(r.chainB[1]); if(sib && b === 2){ en += ` (${gword(sib,"brother","sister","sibling")}'s ${gword(B,"son","daughter","child")})`; te = (sib.g === "m" ? "సోదరుని " : "సోదరి ") + gword(B,"కొడుకు","కూతురు",""); } }
+  else if(b === 1){ en = greats(a - 3) + (a >= 3 ? "grand-" : "") + gword(B,"uncle","aunt","parent's sibling");
+    if(a === 2 && aParent){ const ot = yearOf(B.birth) && yearOf(aParent.birth) ? B.birth < aParent.birth : null;
+      en += aParent.g === "f" ? " (mother's " : " (father's "; en += gword(B,"brother)","sister)","sibling)");
+      if(aParent.g === "m") te = B.g === "m" ? (ot === null ? "పెదనాన్న / బాబాయ్" : ot ? "పెదనాన్న" : "బాబాయ్") : "అత్త";
+      else te = B.g === "m" ? "మామయ్య" : (ot === null ? "పెద్దమ్మ / పిన్ని" : ot ? "పెద్దమ్మ" : "పిన్ని"); }
+    else te = gword(B,"తాత వరుస","అవ్వ వరుస",""); }
+  else { const deg = Math.min(a, b) - 1, rem = Math.abs(a - b);
+    en = ordinal(deg) + " cousin" + (rem ? (rem === 1 ? " once removed" : rem === 2 ? " twice removed" : ` ${rem} times removed`) : "");
+    te = "బంధువు (" + (a === b ? "ఒకే తరం" : a > b ? "చిన్న తరం" : "పెద్ద తరం") + ")";
+    if(a === 2 && b === 2){ const pa = P(r.chainA[1]), pb = P(r.chainB[1]); if(pa && pb){ const cross = pa.g !== pb.g;
+      en += cross ? " (cross-cousin)" : " (parallel cousin)";
+      if(!cross) te = older === null ? gword(B,"అన్న / తమ్ముడు వరుస","అక్క / చెల్లి వరుస","") : B.g === "m" ? (older ? "అన్న వరుస" : "తమ్ముడు వరుస") : (older ? "అక్క వరుస" : "చెల్లి వరుస");
+      else te = B.g === "m" ? (older === false ? "బావమరిది వరుస" : "బావ వరుస") : (older ? "వదిన వరుస" : "మరదలు వరుస"); } } }
+  return { en, te };
+}
+const SPOUSE_OF = { "అన్నయ్య":"వదిన", "తమ్ముడు":"మరదలు", "అక్క":"బావ", "చెల్లి":"మరిది", "కొడుకు":"కోడలు", "కూతురు":"అల్లుడు", "పెదనాన్న":"పెద్దమ్మ", "బాబాయ్":"పిన్ని", "మామయ్య":"అత్త", "అత్త":"మామయ్య", "పెద్దమ్మ":"పెదనాన్న", "పిన్ని":"బాబాయ్", "మనవడు":"మనవరాలి వరుస", "మనవరాలు":"మనవడి వరుస" };
+function relate(aId, bId){
+  const A = P(aId), B = P(bId); if(!A || !B) return null;
+  if(aId === bId) return { te: "మీరే", en: "this is you", path: [aId] };
+  if(spousesOf(aId).some(s => s.id === bId)) return { te: gword(B,"భర్త","భార్య","జీవిత భాగస్వామి"), en: gword(B,"husband","wife","spouse"), path: [aId, bId] };
+  const r = bloodRel(aId, bId);
+  if(r){ const t = bloodTerm(r, A, B); return { ...t, path: r.chainA.concat(r.chainB.slice(1)) }; }
+  let best = null;
+  spousesOf(bId).forEach(s => { const rr = bloodRel(aId, s.id); if(rr && (!best || rr.s < best.r.s)) best = { r: rr, via: s.id, mode: 1 }; });
+  spousesOf(aId).forEach(s => { const rr = bloodRel(s.id, bId); if(rr && (!best || rr.s < best.r.s)) best = { r: rr, via: s.id, mode: 2 }; });
+  if(best){
+    if(best.mode === 1){ const R = P(best.via), t = bloodTerm(best.r, A, R);
+      return { te: SPOUSE_OF[t.te] || `${t.te} ${gword(B,"భర్త","భార్య","")}`, en: `${t.en}'s ${gword(B,"husband","wife","spouse")}`, path: best.r.chainA.concat(best.r.chainB.slice(1), [bId]) }; }
+    const S2 = P(best.via), t = bloodTerm(best.r, S2, B);
+    let te = t.te === "నాన్న" ? "మామగారు" : t.te === "అమ్మ" ? "అత్తగారు" : `${gword(S2,"భర్త","భార్య","")} ${t.te}`;
+    return { te, en: `${gword(S2,"husband","wife","spouse")}'s ${t.en}`, path: [aId].concat(best.r.chainA, best.r.chainB.slice(1)) };
+  }
+  return { te: "దూరపు బంధువు", en: "distant relative (no direct link recorded)", path: [], none: true };
+}
+
+/* ---------- routing ---------- */
+function go(h){ if(location.hash === h) render(); else location.hash = h; }
+window.addEventListener("hashchange", render);
+$("#back").onclick = () => history.length > 1 ? history.back() : go("#/");
+$("#homeBtn").onclick = () => go("#/");
+$("#setBtn").onclick = () => go("#/settings");
+function setTop(sub){
+  const home = !sub;
+  $("#back").hidden = home; $("#homeBtn").hidden = home;
+  $("#title").innerHTML = home ? `${esc(D.meta.familyNameTe || "వంశవృక్షం")}<small>${esc(D.meta.familyName || "Family Tree")}</small>` : sub;
+  document.title = (D.meta.familyNameTe || "వంశవృక్షం");
+}
+function render(){
+  if(!D) return;
+  const h = location.hash || "#/"; const parts = h.slice(2).split("/");
+  window.scrollTo(0, 0);
+  if(parts[0] === "p" && P(parts[1])) return personPage(parts[1]);
+  if(parts[0] === "b" && P(parts[1])) return branchPage(parts[1]);
+  if(parts[0] === "all") return allPage();
+  if(parts[0] === "rel") return relPage();
+  if(parts[0] === "settings") return settingsPage();
+  if(parts[0] === "pick") return pickPage(parts[1]);
+  return homePage();
+}
+
+/* ---------- rows & search ---------- */
+function personRow(p, relLabel){
+  return `<button class="row" data-go="#/p/${p.id}">${avatar(p)}<span class="who">${relLabel ? `<span class="rel">${relLabel}</span>` : ""}<span class="pri">${lateTag(p)}${esc(nameMain(p))}</span>${nameSub(p) ? `<span class="sec">${esc(nameSub(p))}</span>` : ""}${spouseLine(p)}</span><span class="chev" aria-hidden="true">›</span></button>`;
+}
+function spouseLine(p){ const sp = spousesOf(p.id).map(s => P(s.id)); if(!sp.length) return ""; return `<span class="sec">${telFirst ? gword(p,"భార్య","భర్త","") : gword(p,"Wife","Husband","Spouse")}: ${sp.map(x => esc(nameMain(x))).join(", ")}</span>`; }
+function bindGo(root = app){ root.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.preventDefault(); go(b.dataset.go); }); }
+const norm = s => (s || "").toLowerCase().replace(/\s+/g, " ").trim();
+function search(q){ q = norm(q); if(!q) return []; return D.people.filter(p => norm(p.name).includes(q) || (p.te || "").includes(q.trim())).slice(0, 40); }
+function searchBox(id, placeholder){ return `<label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="${id}" type="search" inputmode="search" autocomplete="off" placeholder="${placeholder}" aria-label="${placeholder}"><button class="clear" type="button" aria-label="Clear" hidden>✕</button></label>`; }
+function wireSearch(inputId, outId, onPickHash){
+  const inp = $("#" + inputId), out = $("#" + outId), clr = inp.parentElement.querySelector(".clear");
+  const run = () => { const r = search(inp.value); clr.hidden = !inp.value;
+    out.innerHTML = !inp.value ? "" : r.length ? r.map(p => personRow(p, relToMe(p))).join("") : `<p class="empty">${L("ఈ పేరు దొరకలేదు. వేరే అక్షరాలతో ప్రయత్నించండి.","No one found. Try fewer letters.")}</p>`;
+    out.querySelectorAll("[data-go]").forEach(b => { if(onPickHash) b.dataset.go = onPickHash(b.dataset.go.split("/").pop()); }); bindGo(out); };
+  inp.addEventListener("input", run); clr.onclick = () => { inp.value = ""; run(); inp.focus(); };
+}
+const myId = () => { const m = store.get("v-me"); return m && P(m) ? m : null; };
+function relToMe(p){ const me = myId(); if(!me || me === p.id) return me === p.id ? (telFirst ? "మీరు" : "You") : ""; const r = relate(me, p.id); return r && !r.none ? esc(telFirst ? r.te : r.en) : ""; }
+
+/* ---------- pages ---------- */
+const ICON = {
+  tree: '<svg viewBox="0 0 24 24"><path d="M12 21v-8M12 13l-5-4M12 13l5-4M7 9V5M17 9V5M12 13V6"/><circle cx="7" cy="4" r="1.6"/><circle cx="17" cy="4" r="1.6"/><circle cx="12" cy="5" r="1.6"/></svg>',
+  list: '<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>',
+  link: '<svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><path d="M10.5 10.5l3 3"/></svg>',
+  me: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
+  share: '<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 11l7.6-4.5M8.2 13l7.6 4.5"/></svg>',
+  install: '<svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>'
+};
+let deferredInstall = null;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredInstall = e; if(!location.hash || location.hash === "#/") render(); });
+const isStandalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+
+function homePage(){
+  setTop("");
+  const root = P(D.meta.rootId) || D.people[0], rs = spousesOf(root.id).map(s => P(s.id));
+  const living = D.people.filter(p => !isDead(p)).length, ng = Math.max(...Object.values(gens));
+  const me = myId();
+  app.innerHTML = `
+    ${searchBox("q", telFirst ? "పేరు వెతకండి / Search a name" : "Search a name / పేరు వెతకండి")}
+    <div class="list" id="qr"></div>
+    <section class="hero" id="heroBox">
+      <span class="sec">${telFirst ? "వంశ మూల పురుషుడు · Family begins with" : "Family begins with · వంశ మూల పురుషుడు"}</span>
+      <span class="big">${lateTag(root)}${esc(nameMain(root))}${rs.length ? " – " + rs.map(x => esc(nameMain(x))).join(", ") : ""}</span>
+      <div class="facts"><span class="chip">${D.people.length} ${telFirst ? "మంది" : "people"}</span><span class="chip">${ng} ${telFirst ? "తరాలు" : "generations"}</span><span class="chip">${living} ${telFirst ? "ప్రస్తుతం ఉన్నవారు" : "living"}</span>${D.meta.gotram ? `<span class="chip">${telFirst ? "గోత్రం" : "Gotram"}: ${esc(D.meta.gotram)}</span>` : ""}</div>
+    </section>
+    <nav class="menu" id="menuBox">
+      ${me ? `<button class="bigbtn me" data-go="#/p/${me}"><span class="ic">${ICON.me}</span><span class="tx">${L("నా పేజీ: " + esc(nameTe(P(me))), "My page: " + esc(P(me).name))}</span><span class="chev">›</span></button>`
+           : `<button class="bigbtn me" data-go="#/pick/me"><span class="ic">${ICON.me}</span><span class="tx">${L("మీ పేరు ఎంచుకోండి","Choose your name, to see how everyone is related to you")}</span><span class="chev">›</span></button>`}
+      <button class="bigbtn" data-go="#/b/${root.id}"><span class="ic">${ICON.tree}</span><span class="tx">${L("వంశవృక్షం చూడండి","See the family tree")}</span><span class="chev">›</span></button>
+      <button class="bigbtn" data-go="#/rel"><span class="ic">${ICON.link}</span><span class="tx">${L("ఇద్దరి మధ్య బంధుత్వం","How are two people related?")}</span><span class="chev">›</span></button>
+      <button class="bigbtn" data-go="#/all"><span class="ic">${ICON.list}</span><span class="tx">${L("అందరి పేర్లు","Everyone's names")}</span><span class="chev">›</span></button>
+      <button class="bigbtn" id="shareBtn"><span class="ic">${ICON.share}</span><span class="tx">${L("బంధువులకు పంపండి","Share with relatives")}</span><span class="chev">›</span></button>
+      ${!isStandalone() ? `<button class="bigbtn" id="installBtn"><span class="ic">${ICON.install}</span><span class="tx">${L("ఫోన్‌లో యాప్‌గా పెట్టుకోండి","Add to phone home screen")}</span><span class="chev">›</span></button>` : ""}
+    </nav>
+    <p class="foot">${telFirst ? "పేరుపై నొక్కితే ఆ వ్యక్తి వివరాలు వస్తాయి." : "Tap any name to see that person."}</p>`;
+  bindGo();
+  wireSearch("q", "qr");
+  $("#q").addEventListener("input", e => { const on = !!e.target.value; $("#heroBox").hidden = on; $("#menuBox").hidden = on; });
+  $("#shareBtn").onclick = shareApp;
+  const ib = $("#installBtn"); if(ib) ib.onclick = installApp;
+}
+async function shareApp(){
+  const url = location.href.split("#")[0];
+  const text = `${D.meta.familyNameTe || ""} – మన కుటుంబ వంశవృక్షం. మీ పేరు వెతకండి:`;
+  try{ if(navigator.share){ await navigator.share({ title: D.meta.familyNameTe || "వంశవృక్షం", text, url }); return; } }catch(e){ if(e && e.name === "AbortError") return; }
+  const wa = "https://wa.me/?text=" + encodeURIComponent(text + " " + url);
+  location.href = wa;
+}
+async function installApp(){
+  if(deferredInstall){ deferredInstall.prompt(); try{ await deferredInstall.userChoice; }catch(e){} deferredInstall = null; return; }
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  toast(ios ? "Safari లో కింద ఉన్న Share (⬆️) నొక్కి \"Add to Home Screen\" ఎంచుకోండి." : "బ్రౌజర్ మెనూ (⋮) నొక్కి \"Add to Home screen\" / \"Install app\" ఎంచుకోండి.");
+}
+
+function personPage(id){
+  const p = P(id); setTop(L(esc(nameTe(p)), esc(p.name)));
+  const me = myId(), par = parentsOf(id), sp = spousesOf(id).map(s => P(s.id)), kids = childrenOf(id), sib = siblingsOf(id);
+  const rel = me && me !== id ? relate(me, id) : null;
+  const notes = (p.notes || "").split(/(?<=\.)\s+/).filter(s => s && !UNCERTAIN.test(s)).join(" ");
+  const facts = [];
+  if(p.birth) facts.push(L("పుట్టిన తేదీ: " + esc(p.birth), "Born: " + esc(p.birth)));
+  if(p.death) facts.push(L("మరణం: " + esc(p.death), "Died: " + esc(p.death)));
+  if(p.place) facts.push(L("ఊరు: " + esc(p.place), "Place: " + esc(p.place)));
+  if(p.job) facts.push(L("వృత్తి: " + esc(p.job), "Work: " + esc(p.job)));
+  const sect = (te, en, arr, labeler) => arr.length ? `<h2 class="sect">${te}<span class="sec">${en}</span></h2><div class="list">${arr.map(x => personRow(x, labeler(x))).join("")}</div>` : "";
+  const wa = (D.meta.whatsapp || "").replace(/\D/g, "");
+  app.innerHTML = `
+    <section class="profile">
+      ${avatar(p)}
+      <div class="name">${lateTag(p)}${esc(nameMain(p))}</div>
+      ${nameSub(p) ? `<div class="en">${esc(nameSub(p))}</div>` : ""}
+      <div class="en">${telFirst ? gens[id] + "వ తరం" : "Generation " + gens[id]}</div>
+      ${rel ? `<div class="relbox"><div class="e">${telFirst ? "మీకు ఈమె/ఇతను" : "To you, this is your"}</div><div class="t">${esc(telFirst ? rel.te : rel.en)}</div><div class="e">${esc(telFirst ? rel.en : rel.te)}</div></div>` : ""}
+      ${facts.length ? `<div class="en" style="display:grid;gap:4px">${facts.join("")}</div>` : ""}
+    </section>
+    ${notes ? `<div class="note">${esc(notes)}</div>` : ""}
+    ${sect("తల్లిదండ్రులు", "Parents", par, x => gword(x, telFirst ? "తండ్రి" : "Father", telFirst ? "తల్లి" : "Mother", ""))}
+    ${sect(gword(p, "భార్య", "భర్త", "జీవిత భాగస్వామి"), gword(p, "Wife", "Husband", "Spouse"), sp, () => "")}
+    ${sect("పిల్లలు", "Children", kids, x => gword(x, telFirst ? "కొడుకు" : "Son", telFirst ? "కూతురు" : "Daughter", ""))}
+    ${sect("తోబుట్టువులు", "Brothers & sisters", sib, x => gword(x, telFirst ? "సోదరుడు" : "Brother", telFirst ? "సోదరి" : "Sister", ""))}
+    <div class="actions">
+      ${kids.length ? `<button class="act solid full" data-go="#/b/${id}">${L("ఈ కుటుంబ శాఖ చూడండి", "See this branch of the family")}</button>` : ""}
+      ${me === id ? `<button class="act full" id="notMe">${L("ఇది నేను కాదు", "This is not me")}</button>`
+                  : `<button class="act" id="isMe">${L("ఇది నేనే", "This is me")}</button><button class="act" data-go="#/rel">${L("బంధుత్వం", "Relation finder")}</button>`}
+      ${wa ? `<a class="act full" style="text-align:center;text-decoration:none;display:grid;place-items:center" href="https://wa.me/${wa}?text=${encodeURIComponent("వంశవృక్షంలో సవరణ: " + nameTe(p) + " (" + p.name + ") – ")}" target="_blank" rel="noopener">${L("తప్పు ఉందా? వాట్సాప్‌లో తెలపండి", "Something wrong? Tell us on WhatsApp")}</a>` : ""}
+    </div>`;
+  bindGo();
+  const im = $("#isMe"); if(im) im.onclick = () => { store.set("v-me", id); toast(telFirst ? "సరే! ఇప్పుడు ప్రతి పేజీలో మీకు ఏమవుతారో చూపిస్తుంది." : "Done. Every page now shows how they are related to you."); render(); };
+  const nm = $("#notMe"); if(nm) nm.onclick = () => { store.set("v-me", ""); render(); };
+}
+
+function branchPage(id){
+  const p = P(id); setTop(L("వంశవృక్షం", "Family tree"));
+  const node = (x, depth, seen) => {
+    seen.add(x.id);
+    const sp = spousesOf(x.id).map(s => P(s.id)).filter(s => !seen.has(s.id)); sp.forEach(s => seen.add(s.id));
+    const kids = childrenOf(x.id).filter(k => !seen.has(k.id));
+    const sub = gword(x, "భార్య", "భర్త", "");
+    const head = `<span class="cp"><button class="nm" data-go="#/p/${x.id}">${lateTag(x)}${esc(nameMain(x))}</button>${sp.length ? `<span class="sp">${telFirst ? sub : gword(x,"Wife","Husband","Spouse")}: ${sp.map(s => `<button data-go="#/p/${s.id}">${lateTag(s)}${esc(nameMain(s))}</button>`).join(", ")}</span>` : ""}${kids.length ? `<span class="kids">${kids.length} ${telFirst ? "మంది పిల్లలు" : (kids.length === 1 ? "child" : "children")}</span>` : ""}</span>`;
+    if(!kids.length) return `<div class="leaf"><span class="cp"><button class="nm" data-go="#/p/${x.id}">${lateTag(x)}${esc(nameMain(x))}</button>${sp.length ? `<span class="sp">${telFirst ? sub : gword(x,"Wife","Husband","Spouse")}: ${sp.map(s => `<button data-go="#/p/${s.id}">${lateTag(s)}${esc(nameMain(s))}</button>`).join(", ")}</span>` : ""}</span></div>`;
+    return `<details ${depth < 1 ? "open" : ""}><summary><span class="tg" aria-hidden="true">+</span>${head}</summary>${kids.map(k => node(k, depth + 1, seen)).join("")}</details>`;
+  };
+  const up = parentsOf(id)[0];
+  app.innerHTML = `
+    <p style="margin:0" class="sec">${telFirst ? "పచ్చ + గుర్తు నొక్కితే పిల్లలు కనిపిస్తారు. పేరు నొక్కితే వివరాలు." : "Tap the green + to show children. Tap a name for details."}</p>
+    <div class="expandall"><button class="act" id="openAll">${L("అన్నీ తెరవండి", "Open all")}</button><button class="act" id="closeAll">${L("అన్నీ మూసివేయండి", "Close all")}</button></div>
+    ${up ? `<button class="row" data-go="#/b/${up.id}"><span class="av">↑</span><span class="who">${L("పై తరం నుండి చూడండి", "Show from the generation above")}</span></button>` : ""}
+    <div class="branch">${node(p, 0, new Set())}</div>`;
+  app.querySelectorAll("details").forEach(d => { const sync = () => { const t = d.querySelector(":scope > summary .tg"); if(t) t.textContent = d.open ? "−" : "+"; }; sync(); d.addEventListener("toggle", sync); });
+  app.querySelectorAll(".branch [data-go]").forEach(b => b.addEventListener("click", e => e.stopPropagation()));
+  bindGo();
+  $("#openAll").onclick = () => app.querySelectorAll(".branch details").forEach(d => d.open = true);
+  $("#closeAll").onclick = () => app.querySelectorAll(".branch details").forEach((d, i) => d.open = i === 0);
+}
+
+function allPage(){
+  setTop(L("అందరి పేర్లు", "Everyone's names"));
+  const coll = new Intl.Collator(telFirst ? "te" : "en");
+  const sorted = D.people.slice().sort((a, b) => coll.compare(nameMain(a), nameMain(b)));
+  app.innerHTML = `${searchBox("q2", telFirst ? "పేరు వెతకండి" : "Search a name")}<div class="list" id="q2r"></div><div class="list" id="allList">${sorted.map(p => personRow(p, relToMe(p))).join("")}</div>`;
+  bindGo(); wireSearch("q2", "q2r");
+  $("#q2").addEventListener("input", e => $("#allList").hidden = !!e.target.value);
+}
+
+let relA = null, relB = null;
+function relPage(){
+  setTop(L("బంధుత్వం", "How are we related?"));
+  if(!relA) relA = myId();
+  const slot = (which, id) => { const p = P(id); return `<button class="pickbtn ${p ? "set" : ""}" data-go="#/pick/${which}">${p ? avatar(p) : `<span class="av" style="background:var(--line);color:var(--muted)">?</span>`}<span class="who">${p ? `<span class="pri">${lateTag(p)}${esc(nameMain(p))}</span>${nameSub(p) ? `<span class="sec">${esc(nameSub(p))}</span>` : ""}` : L(which === "a" ? "మొదటి వ్యక్తిని ఎంచుకోండి" : "రెండో వ్యక్తిని ఎంచుకోండి", which === "a" ? "Choose the first person" : "Choose the second person")}</span><span class="chev">›</span></button>`; };
+  let ans = "";
+  if(P(relA) && P(relB)){ const r = relate(relA, relB), A = P(relA), B = P(relB);
+    ans = `<section class="answer"><div class="e">${telFirst ? esc(nameTe(A)) + " కి " + esc(nameTe(B)) : esc(B.name) + " is " + esc(A.name) + "'s"}</div><div class="t">${esc(telFirst ? r.te : r.en)}</div><div class="e">${esc(telFirst ? r.en : r.te)}</div>
+      ${r.path.length > 2 ? `<div class="path">${r.path.map(x => `<span>${esc(nameMain(P(x)))}</span>`).join("<span>→</span>")}</div>` : ""}</section>`; }
+  app.innerHTML = `<div class="pick">${slot("a", relA)}<p class="empty" style="padding:0">${telFirst ? "కి ఏమవుతారు" : "is related to"}</p>${slot("b", relB)}</div>${ans}
+    ${P(relA) && P(relB) ? `<button class="act full" id="swap">${L("తారుమారు చేయండి", "Swap the two")}</button>` : ""}`;
+  bindGo(); const sw = $("#swap"); if(sw) sw.onclick = () => { [relA, relB] = [relB, relA]; render(); };
+}
+function pickPage(which){
+  setTop(which === "me" ? L("మీ పేరు ఎంచుకోండి", "Choose your name") : L("వ్యక్తిని ఎంచుకోండి", "Choose a person"));
+  app.innerHTML = `${searchBox("q3", telFirst ? "పేరు టైప్ చేయండి" : "Type a name")}<div class="list" id="q3r"></div>`;
+  wireSearch("q3", "q3r", pid => `#/__pick/${pid}`);
+  $("#q3r").addEventListener("click", e => { const b = e.target.closest("[data-go]"); if(!b) return; e.stopPropagation(); e.preventDefault();
+    const pid = b.dataset.go.split("/").pop();
+    if(which === "me"){ store.set("v-me", pid); toast(telFirst ? "సరే! ఇప్పుడు అందరూ మీకు ఏమవుతారో చూపిస్తుంది." : "Done. Pages now show how each person is related to you."); history.replaceState(null, "", "#/p/" + pid); render(); }
+    else { if(which === "a") relA = pid; else relB = pid; history.replaceState(null, "", "#/rel"); render(); } }, true);
+  setTimeout(() => $("#q3").focus(), 60);
+}
+
+function settingsPage(){
+  setTop(L("అమరికలు", "Settings"));
+  const cur = store.get("v-fs") || "m";
+  app.innerHTML = `<section class="card"><h3>${L("అక్షరాల పరిమాణం", "Text size")}</h3>
+      <div class="seg" id="fsSeg">${[["s","అ"],["m","అ"],["l","అ"],["xl","అ"]].map(([k, t], i) => `<button data-fs="${k}" aria-pressed="${cur === k}" style="font-size:${0.8 + i * 0.25}em">${t}</button>`).join("")}</div></section>
+    <section class="card"><h3>${L("భాష", "Language")}</h3>
+      <div class="seg" style="grid-template-columns:1fr 1fr"><button data-lang="te" aria-pressed="${telFirst}">తెలుగు ముందు</button><button data-lang="en" aria-pressed="${!telFirst}">English first</button></div></section>
+    ${myId() ? `<section class="card"><h3>${L("మీరు", "You are")}: ${esc(nameMain(P(myId())))}</h3><button class="act" id="clearMe">${L("మార్చండి", "Change")}</button></section>` : ""}
+    <p class="foot">${D.people.length} ${telFirst ? "మంది వివరాలు · ఇంటర్నెట్ లేకపోయినా పనిచేస్తుంది" : "people · works without internet once opened"}</p>`;
+  app.querySelectorAll("[data-fs]").forEach(b => b.onclick = () => { store.set("v-fs", b.dataset.fs); applyFs(); render(); });
+  app.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => { telFirst = b.dataset.lang === "te"; store.set("v-lang", telFirst ? "te" : "en"); render(); });
+  const cm = $("#clearMe"); if(cm) cm.onclick = () => go("#/pick/me");
+}
+function applyFs(){ const f = store.get("v-fs") || "m"; document.documentElement.className = f === "m" ? "" : "fs-" + f; }
+applyFs();
+
+/* ---------- start ---------- */
+fetch("data.json", { cache: "no-cache" }).then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+  D = d; D.unions = D.unions || []; byId = new Map(D.people.map(p => [p.id, p])); gens = computeGens(); render();
+}).catch(() => { app.innerHTML = `<p class="empty">${L("వివరాలు లోడ్ కాలేదు. ఇంటర్నెట్ కనెక్షన్ చూసి మళ్లీ తెరవండి.", "The family data couldn't load. Check your internet connection and open the app again.")}</p>`; });
+
+if("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>
